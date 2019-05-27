@@ -45,6 +45,9 @@ public struct Theme {
         else if let path3 = bundle.path(forResource: "themes/\(name)", ofType: "json") {
 
             path = path3
+        }else if let path4 = bundle.path(forResource: name, ofType: "json") {
+            
+            path = path4
         }
         else {
             
@@ -133,7 +136,32 @@ public struct Theme {
         let fontTraits = attributes["traits"] as? String ?? ""
         var font: UniversalFont?
         
-        if let fontName = attributes["font"] as? String, fontName != "System" {
+        if let fontKind = attributes["preferredFont"] as? String {
+            let style:UIFont.TextStyle
+            if #available(iOS 9.0, *) {
+                switch fontKind {
+                case "body":
+                    style = .body
+                case "title1":
+                    style = .title1
+                case "title2":
+                    style = .title2
+                case "title3":
+                    style = .title3
+                case "footnote":
+                    style = .footnote
+                case "headline":
+                    style = .headline
+                case "subheadline":
+                    style = .subheadline
+                default:
+                    style = .body
+                }
+            } else {
+                style = .body
+            }
+            font = UniversalFont.preferredFont(forTextStyle: style).with(traits: fontTraits, size: fontSize)
+        }else if let fontName = attributes["font"] as? String, fontName != "System" {
             // use custom font if set
             font = UniversalFont(name: fontName, size: fontSize)?.with(traits: fontTraits, size: fontSize)
         } else if let bodyFont = bodyFont, bodyFont.fontName != "System" {
