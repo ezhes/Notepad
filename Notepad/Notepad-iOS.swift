@@ -11,7 +11,7 @@ import UIKit
 
 public class Notepad: UITextView {
 
-    var storage: Storage = Storage()
+    public var storage: Storage = Storage()
 
     /// Creates a new Notepad.
     ///
