@@ -30,7 +30,11 @@ public struct Theme {
     ///
     /// - returns: The Theme.
     public init(_ name: String) {
+        #if SWIFT_PACKAGE
+        let bundle = Bundle.module
+        #else
         let bundle = Bundle(for: Notepad.self)
+        #endif
         
         let path: String
         
